@@ -2,8 +2,8 @@ const { createCanvas, registerFont } = require('canvas');
 const fs = require('fs');
 const path = require('path');
 
-// Ensure the Jaini font is located in the correct directory
-registerFont(path.join(__dirname, 'fonts/Jaini.ttf'), { family: 'Jaini' });
+// Register the Jaini font from the correct directory
+registerFont(path.join(__dirname, 'Jaini/Jaini.ttf'), { family: 'Jaini' });
 
 const quotes = require('./quotes.json');
 
@@ -34,10 +34,12 @@ ctx.fillText(quote.quote, canvas.width / 2, 50);
 // Draw meaning text
 ctx.fillStyle = '#000';  // Default color for meaning
 ctx.font = '20px Arial';  // Standard font for meaning
+ctx.textBaseline = 'top';  // Ensure text starts from top
 ctx.fillText(quote.meaning, canvas.width / 2, 100);
 
 // Draw source text
 ctx.font = '16px Arial';  // Smaller font for source
+ctx.textBaseline = 'top';  // Ensure text starts from top
 ctx.fillText(`- ${quote.source}`, canvas.width / 2, canvas.height - 50);
 
 // Save the image
