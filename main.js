@@ -15,7 +15,7 @@ function getRandomQuote() {
 // Canvas settings
 const canvasWidth = 800;
 const padding = 20; // Padding around the text
-const quotePadding = 10; // Padding between quote and meaning/source
+const quotePadding = 15; // Padding between quote and meaning/source
 
 const quote = getRandomQuote();
 
