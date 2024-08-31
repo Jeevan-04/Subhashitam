@@ -1,8 +1,8 @@
-const { createCanvas, loadImage, registerFont } = require('canvas');
+const { createCanvas, registerFont } = require('canvas');
 const fs = require('fs');
 const path = require('path');
 
-// Register the Jaini font
+// Ensure the Jaini font is located in the correct directory
 registerFont(path.join(__dirname, 'fonts/Jaini.ttf'), { family: 'Jaini' });
 
 const quotes = require('./quotes.json');
