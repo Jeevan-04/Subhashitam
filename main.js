@@ -5,8 +5,10 @@ const path = require('path');
 // Register the Jaini font
 registerFont(path.join(__dirname, 'Jaini/Jaini.ttf'), { family: 'Jaini' });
 
+// Load quotes from JSON file
 const quotes = require('./quotes.json');
 
+// Function to get a random quote
 function getRandomQuote() {
     const randomIndex = Math.floor(Math.random() * quotes.length);
     return quotes[randomIndex];
@@ -15,28 +17,69 @@ function getRandomQuote() {
 const canvas = createCanvas(800, 600);
 const ctx = canvas.getContext('2d');
 
-// Set background color and border
-ctx.fillStyle = '#fffbe6';
+const quote = getRandomQuote();
+
+// Set font styles
+const saffronColor = '#ff9800';
+const backgroundColor = '#fffbe6';
+
+// Function to draw text and return the height
+function drawText(text, font, color, x, y, maxWidth) {
+    ctx.font = font;
+    ctx.fillStyle = color;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    const words = text.split(' ');
+    let line = '';
+    let lineHeight = 0;
+    let height = 0;
+    
+    words.forEach(word => {
+        const testLine = line + word + ' ';
+        const metrics = ctx.measureText(testLine);
+        const testWidth = metrics.width;
+        
+        if (testWidth > maxWidth && line !== '') {
+            ctx.fillText(line, x, y);
+            line = word + ' ';
+            y += lineHeight;
+            lineHeight = 0;
+            height += lineHeight;
+        } else {
+            line = testLine;
+        }
+        lineHeight = Math.max(lineHeight, 30); // Adjust lineHeight as needed
+    });
+    ctx.fillText(line, x, y);
+    height += lineHeight;
+    
+    return height;
+}
+
+// Calculate dynamic height for the text
+const maxWidth = 760; // Maximum width for text
+const padding = 20;   // Padding around the text
+let currentY = 30;    // Initial y position for the text
+
+// Calculate the height required for the quote and meaning
+const quoteHeight = drawText(quote.quote, '30px Jaini', saffronColor, canvas.width / 2, currentY, maxWidth);
+currentY += quoteHeight + padding;
+
+const meaningHeight = drawText(quote.meaning, '20px Arial', '#000', canvas.width / 2, currentY, maxWidth);
+currentY += meaningHeight + padding;
+
+const sourceHeight = drawText(`- ${quote.source}`, '16px Arial', '#000', canvas.width / 2, currentY, maxWidth);
+currentY += sourceHeight + padding;
+
+// Update canvas height to fit the content
+canvas.height = currentY + padding;
+
+// Draw background and border
+ctx.fillStyle = backgroundColor;
 ctx.fillRect(0, 0, canvas.width, canvas.height);
-ctx.strokeStyle = '#ff9800';  // Saffron border
+ctx.strokeStyle = saffronColor;  // Saffron border
 ctx.lineWidth = 10;
 ctx.strokeRect(10, 10, canvas.width - 20, canvas.height - 20);
-
-// Draw quote text
-ctx.fillStyle = '#ff9800';  // Saffron color
-ctx.font = '30px Jaini';  // Jaini font for Sanskrit text
-ctx.textAlign = 'center';
-ctx.textBaseline = 'top';
-ctx.fillText(quotes[0].quote, canvas.width / 2, 50);  // Example index
-
-// Draw meaning text
-ctx.fillStyle = '#000';  // Default color for meaning
-ctx.font = '20px Arial';  // Standard font for meaning
-ctx.fillText(quotes[0].meaning, canvas.width / 2, 100);
-
-// Draw source text
-ctx.font = '16px Arial';  // Smaller font for source
-ctx.fillText(`- ${quotes[0].source}`, canvas.width / 2, canvas.height - 50);
 
 // Save the image
 const out = fs.createWriteStream('./quote.png');
