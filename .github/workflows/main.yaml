@@ -24,11 +24,25 @@ jobs:
       - name: Generate quote image
         run: node main.js
 
-      - name: Commit and push quote image
+      - name: Stash any local changes
+        run: |
+          git stash || echo "No changes to stash"
+
+      - name: Pull latest changes
+        run: |
+          git pull --rebase origin main
+
+      - name: Add and commit new image
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git pull --rebase origin main  # Pull latest changes and rebase
           git add quote.png
           git commit -m "Update quote image" || echo "No changes to commit"
+
+      - name: Push changes
+        run: |
           git push origin main
+          
+      - name: Apply stashed changes
+        run: |
+          git stash pop || echo "No stashed changes to apply"
