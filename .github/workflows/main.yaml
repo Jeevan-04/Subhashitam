@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Ensures the full history is fetched
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -24,11 +26,9 @@ jobs:
       - name: Generate quote image
         run: node main.js
 
-      - name: Stash any local changes
-        run: git stash || echo "No changes to stash"
-
-      - name: Pull latest changes
-        run: git pull --rebase origin main
+      - name: Check for changes
+        run: |
+          git status
 
       - name: Add and commit new image
         run: |
@@ -38,7 +38,5 @@ jobs:
           git commit -m "Update quote image" || echo "No changes to commit"
 
       - name: Push changes
-        run: git push origin main
-
-      - name: Apply stashed changes
-        run: git stash pop || echo "No stashed changes to apply"
+        run: |
+          git push origin main
