@@ -18,6 +18,7 @@ const canvas = createCanvas(800, 600);
 const ctx = canvas.getContext('2d');
 
 const quote = getRandomQuote();
+console.log("Selected quote:", quote);  // Debug statement
 
 // Set font styles
 const saffronColor = '#ff9800';
