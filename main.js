@@ -1,4 +1,4 @@
-const { createCanvas, loadImage, registerFont } = require('canvas');
+const { createCanvas, registerFont } = require('canvas');
 const fs = require('fs');
 const path = require('path');
 
@@ -63,10 +63,12 @@ let currentY = 30;    // Initial y position for the text
 
 // Draw the quote on the canvas
 const quoteHeight = drawText(quote, '30px Jaini', saffronColor, canvas.width / 2, currentY, maxWidth);
+console.log(`Quote height: ${quoteHeight}`);  // Debug statement
 currentY += quoteHeight + padding;
 
 // Update canvas height to fit the content
 canvas.height = currentY + padding;
+console.log(`Canvas height: ${canvas.height}`);  // Debug statement
 
 // Draw background and border
 ctx.fillStyle = backgroundColor;
