@@ -60,16 +60,9 @@ const maxWidth = 760; // Maximum width for text
 const padding = 20;   // Padding around the text
 let currentY = 30;    // Initial y position for the text
 
-// Calculate the height required for the quote and meaning
+// Draw the quote on the canvas
 const quoteHeight = drawText(quote, '30px Jaini', saffronColor, canvas.width / 2, currentY, maxWidth);
 currentY += quoteHeight + padding;
-
-// The following lines ensure that the meaning and source are properly drawn
-const meaningHeight = drawText(quote, '20px Arial', '#000', canvas.width / 2, currentY, maxWidth);
-currentY += meaningHeight + padding;
-
-const sourceHeight = drawText(`- ${quote}`, '16px Arial', '#000', canvas.width / 2, currentY, maxWidth);
-currentY += sourceHeight + padding;
 
 // Update canvas height to fit the content
 canvas.height = currentY + padding;
