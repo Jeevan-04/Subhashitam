@@ -27,8 +27,7 @@ jobs:
         run: node main.js
 
       - name: Check for changes
-        run: |
-          git status
+        run: git status
 
       - name: Add and commit new image
         run: |
@@ -38,5 +37,4 @@ jobs:
           git commit -m "Update quote image" || echo "No changes to commit"
 
       - name: Push changes
-        run: |
-          git push origin main
+        run: git push origin main
