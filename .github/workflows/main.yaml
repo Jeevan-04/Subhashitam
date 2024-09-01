@@ -25,12 +25,10 @@ jobs:
         run: node main.js
 
       - name: Stash any local changes
-        run: |
-          git stash || echo "No changes to stash"
+        run: git stash || echo "No changes to stash"
 
       - name: Pull latest changes
-        run: |
-          git pull --rebase origin main
+        run: git pull --rebase origin main
 
       - name: Add and commit new image
         run: |
@@ -40,9 +38,7 @@ jobs:
           git commit -m "Update quote image" || echo "No changes to commit"
 
       - name: Push changes
-        run: |
-          git push origin main
-          
+        run: git push origin main
+
       - name: Apply stashed changes
-        run: |
-          git stash pop || echo "No stashed changes to apply"
+        run: git stash pop || echo "No stashed changes to apply"
